@@ -4,9 +4,9 @@
 
 function FsLightbox(){
     let _this = this;
-    let imagesArray = []; //This will keep track of all the images that have the class name "fs-lightbox"
-    let currentImage; //Image being displayed currently in the lightbox
-    let isLightbox = false; 
+    this.imagesArray = []; //This will keep track of all the images that have the class name "fs-lightbox"
+    this.currentImage; //Image being displayed currently in the lightbox
+    this.isLightbox = false; 
     let controlsHtml = `
                             <div class="lightbox-controls">
                                 <span class="lb-prev">&#10094;</span>
@@ -16,11 +16,11 @@ function FsLightbox(){
                         `;
 
     this.render = () => {
-        imagesArray = [];
-        currentImage = null;
-        isLightbox = false;
+        this.imagesArray = [];
+        this.currentImage = null;
+        this.isLightbox = false;
         document.querySelectorAll("img.fs-lightbox").forEach(function(img_el, index){
-            imagesArray.push(img_el);
+            _this.imagesArray.push(img_el);
             img_el.setAttribute("data-lightbox-index",index);
             img_el.addEventListener('click',() => {
                 _this.lightbox(img_el);
@@ -31,13 +31,13 @@ function FsLightbox(){
 
     this.lightbox = _el => {
         this.hideLightbox();
-        currentImage = _el;
-        isLightbox = true;
-        var overlay = docuemnt.createElement('div');
+        this.currentImage = _el;
+        this.isLightbox = true;
+        var overlay = document.createElement('div');
         overlay.classList.add('lightbox-overlay');
         var imageContainer = document.createElement('div');
         imageContainer.classList.add('lightbox-image');
-        var image = docuemnt.createElement('img');
+        var image = document.createElement('img');
         image.src = _el.src;
         imageContainer.appendChild(image);
         document.querySelector('body').appendChild(overlay);
@@ -46,7 +46,7 @@ function FsLightbox(){
     };
 
     this.next = () => {
-        let imgIndex = getCurrentImageIndex();
+        let imgIndex = getCurrentImagesIndex();
         if(imgIndex === _this.imagesArray.length - 1 ){
             return;
         }
@@ -82,10 +82,10 @@ function FsLightbox(){
     
     function prepareControls(imgElement){
         let controls = document.createElement('div');
-        controls.innerHTML += controlsHTML;
+        controls.innerHTML += controlsHtml;
         
         document.querySelector('body').appendChild(controls.querySelector('.lightbox-controls'));
-        let imgIndex = getCurrentImageIndex();
+        let imgIndex = getCurrentImagesIndex();
         if(imgIndex > 0){
             document.querySelector(".lb-prev").addEventListener('click',() => {
                 _this.prev();
@@ -117,7 +117,7 @@ function FsLightbox(){
         document.querySelector('.lighbox-image').appendChild(counter);
     }
 
-    function getCurrentImageIndex(){
+    function getCurrentImagesIndex(){
         return +_this.currentImage.getAttribute('data-lightbox-index');
     }
 
