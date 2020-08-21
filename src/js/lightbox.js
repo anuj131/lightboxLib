@@ -107,14 +107,14 @@ function FsLightbox(){
     }
 
     function showCounter(){
-        let imgIndex = getcurrentImagesIndex();
+        let imgIndex = getCurrentImagesIndex();
         let counter = document.createElement('span');
         let counter_Html = `<br\>${imgIndex + 1} of ${_this.imagesArray.length}`;
         if(_this.currentImage.alt){
-            current_Html += ` - $(_this.currentImage.alt)`;
+            counter_Html += ` - ${_this.currentImage.alt}`;
         }
         counter.innerHTML = counter_Html;
-        document.querySelector('.lighbox-image').appendChild(counter);
+        document.querySelector('.lightbox-image').appendChild(counter);
     }
 
     function getCurrentImagesIndex(){
